@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.crud.model.Employee;
 import io.crud.repository.EmployeeRepository;
+import io.crud.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -28,40 +29,33 @@ public class Controller {
 	
 	@Autowired
 	private EmployeeRepository employeeRepo;
+	
+	@Autowired
+	private EmployeeService employeeService;
 
 	@GetMapping("/test")
 	public ResponseEntity<String> testUrl(){
 		return new ResponseEntity<String>("Working", HttpStatus.OK);
 	}
 	
-	//show //update //delete //add
 	@PostMapping(value = "/addEmployee", consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<String> addEmployee(@RequestBody Employee employee){
-		
-		log.debug("Employee received :: {}",employee);
-		employeeRepo.save(employee);
+		employeeService.saveEmployee(employee);
 		return new ResponseEntity<String>("Saved employee successfully", HttpStatus.ACCEPTED);
 	}
+	
 	
 	@GetMapping(value = "/showAllEmployees", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Employee>> showAllEmployees(){
 		
-		List<Employee> allEmployees = employeeRepo.findAll();
+		List<Employee> allEmployees = employeeService.showAllEmployees();
 		return new ResponseEntity<List<Employee>>(allEmployees, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/showEmployee/{id}")
 	public ResponseEntity<Employee> showEmployeeById(@PathVariable("id") long id){
 		
-		Optional<Employee> optionalEmployee = employeeRepo.findById(id);
-		
-		if(optionalEmployee==null) {
-			return new ResponseEntity<Employee>(new Employee(), HttpStatus.NO_CONTENT);
-		}
-		
-		Employee employee = optionalEmployee.get();
-		
-		return new ResponseEntity<Employee>(employee, HttpStatus.OK);
+		return employeeService.showEmployeeById(id);
 	}
 	
 	@PutMapping(value = "/updateEmployee")
