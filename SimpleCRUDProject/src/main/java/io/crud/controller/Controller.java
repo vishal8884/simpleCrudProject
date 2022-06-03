@@ -74,7 +74,6 @@ public class Controller {
 			return new ResponseEntity<String>("employee does not exist", HttpStatus.NO_CONTENT);
 		}
 		
-		
 		employeeRepo.save(updatedEmployee);
 		
 		return new ResponseEntity<String>("updated employee successfully", HttpStatus.ACCEPTED);
@@ -82,6 +81,11 @@ public class Controller {
 	
 	@DeleteMapping("/deleteEmployee/{id}")
 	public ResponseEntity<String> deleteEmployee(@PathVariable("id") long id){
+		
+		Optional<Employee> optionalEmployee = employeeRepo.findById(id);
+		if(optionalEmployee==null) {
+			return new ResponseEntity<String>("employee does not exist", HttpStatus.NO_CONTENT);
+		}
 		
 		employeeRepo.deleteById(id);
 		
