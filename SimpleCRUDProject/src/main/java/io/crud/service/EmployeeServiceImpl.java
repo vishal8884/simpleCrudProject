@@ -17,14 +17,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private EmployeeRepository employeeRepo;
 
 	@Override
-	public void saveEmployee(Employee employee) {
-		employeeRepo.save(employee);
+	public ResponseEntity<String> saveEmployee(Employee employee) {
+	    employeeRepo.save(employee);
+		return new ResponseEntity<String>("Saved employee successfully", HttpStatus.ACCEPTED);
 	}
 
 	@Override
-	public List<Employee> showAllEmployees() {
+	public ResponseEntity<List<Employee>> showAllEmployees() {
 		List<Employee> allEmployees = employeeRepo.findAll();
-		return allEmployees;
+		return new ResponseEntity<List<Employee>>(allEmployees, HttpStatus.OK);
 	}
 
 	@Override

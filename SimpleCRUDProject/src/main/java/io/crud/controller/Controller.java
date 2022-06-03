@@ -40,23 +40,20 @@ public class Controller {
 	
 	@PostMapping(value = "/addEmployee", consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<String> addEmployee(@RequestBody Employee employee){
-		employeeService.saveEmployee(employee);
-		return new ResponseEntity<String>("Saved employee successfully", HttpStatus.ACCEPTED);
+		return employeeService.saveEmployee(employee);
 	}
 	
 	
 	@GetMapping(value = "/showAllEmployees", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Employee>> showAllEmployees(){
-		
-		List<Employee> allEmployees = employeeService.showAllEmployees();
-		return new ResponseEntity<List<Employee>>(allEmployees, HttpStatus.OK);
+		return employeeService.showAllEmployees();
 	}
 	
 	@GetMapping(value = "/showEmployee/{id}")
 	public ResponseEntity<Employee> showEmployeeById(@PathVariable("id") long id){
-		
 		return employeeService.showEmployeeById(id);
 	}
+	
 	
 	@PutMapping(value = "/updateEmployee")
 	public ResponseEntity<String> updateEmployee(@RequestBody Employee updatedEmployee) {
