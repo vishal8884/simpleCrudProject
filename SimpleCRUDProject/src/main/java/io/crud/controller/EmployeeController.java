@@ -33,11 +33,6 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 
-	@GetMapping("/")
-	public String testUr1(){
-		return "Welcome to page";
-	}
-	
 	@GetMapping("/test")
 	public ResponseEntity<String> testUrl(){
 		return new ResponseEntity<String>("Working", HttpStatus.OK);
