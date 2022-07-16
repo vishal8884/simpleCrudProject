@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/crud")
 @Slf4j
-public class Controller {
+public class EmployeeController {
 	
 	@Autowired
 	private EmployeeRepository employeeRepo;
@@ -33,6 +33,11 @@ public class Controller {
 	@Autowired
 	private EmployeeService employeeService;
 
+	@GetMapping("/")
+	public String testUr1(){
+		return "Welcome to page";
+	}
+	
 	@GetMapping("/test")
 	public ResponseEntity<String> testUrl(){
 		return new ResponseEntity<String>("Working", HttpStatus.OK);
